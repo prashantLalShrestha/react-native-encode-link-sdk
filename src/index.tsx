@@ -1,14 +1,4 @@
-import { NativeModules } from "react-native";
-
-// https://developers.enode.com/docs/link-sdks/react-native#use-the-sdks-in-react-native
-export type LinkUICallBackCode =
-  | "success"
-  | "missingLinkToken"
-  | "malformedLinkToken"
-  | "dismissedViaDismissFunction"
-  | "cancelledByUser"
-  | "backendError"
-  | "earlyExitRequestedFromFrontend";
+import EncodeLinkSdk, { type LinkUICallBackCode } from "./EncodeLinkSdk";
 
 const show = (
   token: string,
@@ -16,7 +6,7 @@ const show = (
   onCancel: (code: string, errorMessage: string) => void,
   onError: (code: string, errorMessage: string) => void
 ) => {
-  NativeModules.EncodeLinkSdk.show(
+  EncodeLinkSdk.show(
     token,
     (code: LinkUICallBackCode, errorMessage: string) => {
       switch (code) {
@@ -37,3 +27,4 @@ const show = (
 };
 
 export const LinkUI = { show };
+export { type LinkUICallBackCode } from "./EncodeLinkSdk";

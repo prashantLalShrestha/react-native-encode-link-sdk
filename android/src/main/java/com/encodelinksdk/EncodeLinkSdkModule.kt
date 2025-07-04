@@ -39,7 +39,7 @@ class EncodeLinkSdkModule(reactContext: ReactApplicationContext) : ReactContextB
         }
     }
 
-    override fun getName() = "LinkUIModule"
+    override fun getName() = "EncodeLinkSdk"
 
     init {
       reactContext.addActivityEventListener(activityEventListener)
