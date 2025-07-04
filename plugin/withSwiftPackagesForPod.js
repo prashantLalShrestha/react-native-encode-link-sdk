@@ -2,45 +2,43 @@ const { withPodfile } = require("@expo/config-plugins");
 const fs = require("fs");
 const path = require("path");
 
-// === 2. Patch Podfile with post_install ===
-
-const withSwiftPackagePostInstall = (config, { podTarget, productName }) => {
+function withSwiftPackagePostInstall(config, { podTarget, frameworkName }) {
   return withPodfile(config, (config) => {
     config.modResults.contents = patchPodfile(config.modResults.contents, {
       podTarget,
-      productName,
+      frameworkName,
     });
     return config;
   });
-};
+}
 
-function patchPodfile(src, { podTarget, productName }) {
-  const injectCode = `
+function patchPodfile(contents, { podTarget, frameworkName }) {
+  const postInstallStart = `post_install do |installer|`;
+  const postInstallEnd = `end`;
+
+  const linkCode = `
   installer.pods_project.targets.each do |target|
     if target.name == '${podTarget}'
-      puts "✅ Linking ${productName} to #{target.name}"
-      product_ref = installer.pods_project.products_group["${productName}"]
-      target.frameworks_build_phase.add_file_reference(product_ref, true) if product_ref
+      puts "⚙️  Linking ${frameworkName} to #{target.name}"
+      framework_ref = installer.pods_project.frameworks_group.new_file('${frameworkName}')
+      target.frameworks_build_phase.add_file_reference(framework_ref, true)
     end
   end`;
 
-  if (!src.includes("post_install do |installer|")) {
-    return `${src.trim()}
-
-post_install do |installer|
-  ${injectCode.trim()}
-end
-`;
+  // Case 1: Podfile has no post_install at all — inject full block
+  if (!contents.includes("post_install do |installer|")) {
+    return (
+      contents +
+      `\n\n${postInstallStart}\n  ${linkCode.trim()}\n${postInstallEnd}\n`
+    );
   }
 
-  return src.replace(
+  // Case 2: post_install exists — append inside it (naïvely)
+  return contents.replace(
     /post_install do \|installer\|([\s\S]*?)end/,
     (match, body) => {
-      if (body.includes(productName)) return match; // Already patched
-      return `post_install do |installer|${body.trim()}
-
-  ${injectCode.trim()}
-end`;
+      if (body.includes(frameworkName)) return match; // already patched
+      return `${postInstallStart}${body}\n  ${linkCode.trim()}\n${postInstallEnd}`;
     }
   );
 }
