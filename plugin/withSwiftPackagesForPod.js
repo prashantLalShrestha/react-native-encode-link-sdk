@@ -1,6 +1,6 @@
 const { withXcodeProject } = require("@expo/config-plugins");
 
-function withSwiftPackageForPod(config, { packages, podTarget }) {
+function withSwiftPackagesForPod(config, { packages, podTarget }) {
   return withXcodeProject(config, (config) => {
     const project = config.modResults;
     const objects = project.hash.project.objects;
@@ -79,4 +79,4 @@ function withSwiftPackageForPod(config, { packages, podTarget }) {
   });
 }
 
-module.exports = withSwiftPackageForPod;
+exports.withSwiftPackagesForPod = withSwiftPackagesForPod;

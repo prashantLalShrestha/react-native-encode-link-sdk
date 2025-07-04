@@ -1,7 +1,7 @@
-const { withSwiftPackages } = require("./withSwiftPackages");
+const { withSwiftPackagesForPod } = require("./withSwiftPackagesForPod");
 
 const withLinkUI = (config) => {
-  return withSwiftPackageForPod(config, {
+  return withSwiftPackagesForPod(config, {
     podTarget: "EncodeLinkSdk", // Replace with your Pod target name
     packages: [
       {
