@@ -1,16 +1,14 @@
 const { withSwiftPackages } = require("./withSwiftPackages");
 
 const withLinkUI = (config) => {
-  return withSwiftPackages(config, {
+  return withSwiftPackageForPod(config, {
+    podTarget: "EncodeLinkSdk", // Replace with your Pod target name
     packages: [
       {
-        url: "https://github.com/enode/enode-link-ios",
-        repoName: "enode-link-ios",
-        productName: "LinkKit",
-        requirement: {
-          kind: "upToNextMajorVersion",
-          minimumVersion: "1.0.6",
-        },
+        url: "https://github.com/apple/swift-algorithms.git",
+        requirement: { exact: "1.0.0" },
+        repoName: "swift-algorithms",
+        productName: "Algorithms",
       },
     ],
   });
