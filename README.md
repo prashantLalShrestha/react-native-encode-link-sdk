@@ -1,6 +1,6 @@
 # react-native-encode-link-sdk
 
-A react native bridge for encode Link SDK -> https://developers.enode.com/docs/link-sdks/introduction
+A react native bridge for encode Link SDK -> <https://developers.enode.com/docs/link-sdks/introduction>
 
 ## Installation
 

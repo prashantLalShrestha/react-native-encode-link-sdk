@@ -2,15 +2,15 @@ import { NativeModules } from "react-native";
 
 // https://developers.enode.com/docs/link-sdks/react-native#use-the-sdks-in-react-native
 export type LinkUICallBackCode =
-  | 'success'
-  | 'missingLinkToken'
-  | 'malformedLinkToken'
-  | 'dismissedViaDismissFunction'
-  | 'cancelledByUser'
-  | 'backendError'
-  | 'earlyExitRequestedFromFrontend';
+  | "success"
+  | "missingLinkToken"
+  | "malformedLinkToken"
+  | "dismissedViaDismissFunction"
+  | "cancelledByUser"
+  | "backendError"
+  | "earlyExitRequestedFromFrontend";
 
-export const startLinkUI = (
+const show = (
   token: string,
   onSuccess: () => void,
   onCancel: (code: string, errorMessage: string) => void,
@@ -20,11 +20,11 @@ export const startLinkUI = (
     token,
     (code: LinkUICallBackCode, errorMessage: string) => {
       switch (code) {
-        case 'success':
+        case "success":
           onSuccess?.();
           break;
 
-        case 'cancelledByUser':
+        case "cancelledByUser":
           onCancel?.(code, errorMessage);
           break;
 
@@ -35,3 +35,5 @@ export const startLinkUI = (
     }
   );
 };
+
+export const LinkUI = { show };
