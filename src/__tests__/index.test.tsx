@@ -1,5 +1,5 @@
 import { LinkUI } from "../index";
-import EncodeLinkSdk, { type LinkUICallBackCode } from "../EncodeLinkSdk";
+import EncodeLinkSdk from "../EncodeLinkSdk";
 
 jest.mock("../EncodeLinkSdk", () => ({
   __esModule: true,
