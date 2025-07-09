@@ -21,6 +21,12 @@ Pod::Spec.new do |s|
     "**/*.xcframework/**/*.h"
   ]
   s.vendored_frameworks='Frameworks/LinkKit.xcframework'
+
+  # Swift/Objective-C compatibility
+  s.pod_target_xcconfig = {
+    'DEFINES_MODULE' => 'YES',
+    'SWIFT_COMPILATION_MODE' => 'wholemodule'
+  }
   
   if respond_to?(:install_modules_dependencies, true)
     install_modules_dependencies(s)
