@@ -25,7 +25,9 @@ Pod::Spec.new do |s|
   # Swift/Objective-C compatibility
   s.pod_target_xcconfig = {
     'DEFINES_MODULE' => 'YES',
-    'SWIFT_COMPILATION_MODE' => 'wholemodule'
+    'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'NO',
+    'SWIFT_COMPILATION_MODE' => 'wholemodule',
+    'APPLICATION_EXTENSION_API_ONLY' => 'YES'
   }
   
   if respond_to?(:install_modules_dependencies, true)
